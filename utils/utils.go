@@ -74,6 +74,7 @@ func VisualLength(str string) int {
 	return length
 }
 
+// Checks if specified directory exists and, if it doesn't, create it
 func VerifyOrCreate(path string) error {
 	// Check if directory exists
 	if _, err := os.Stat(path); os.IsNotExist(err) {

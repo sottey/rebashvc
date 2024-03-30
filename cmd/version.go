@@ -17,42 +17,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 package cmd
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/sottey/rebashvc/pkg/runtime"
 	"github.com/spf13/cobra"
 )
 
-var cachePath string
-
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "rebashvc",
-	Short: "Takes a yaml file containing commands and bash snippits and executes each command while showing a simple (vertical) progress bar",
-	Long:  `Takes a yaml file containing commands and bash snippits and executes each command while showing a simple (vertical) progress bar`,
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+// versionCmd represents the version command
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Show version of rebashvc",
+	Long:  "Show version of rebashvc",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Rebashvc - Prettify your bash scripts")
+		fmt.Println("MIT License, Copyright © 2018 Alex Goodman, 2024 Sean Ottey")
+		fmt.Println("Version: 0.9.20240330")
+	},
 }
 
 func init() {
-	cobra.OnInitialize(initRebashvc)
-	rootCmd.PersistentFlags().StringVar(&cachePath, "cache-path", "", "The path where cached files will be stored. By default '$(pwd)/.rebashvc' is used")
-
-}
-
-// initConfigDir ...todo
-func initRebashvc() {
-	runtime.Setup()
+	rootCmd.AddCommand(versionCmd)
 }
