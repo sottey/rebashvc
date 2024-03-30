@@ -1,7 +1,7 @@
 //go:build !windows
 // +build !windows
 
-package jotframe
+package frame
 
 import (
 	"os"

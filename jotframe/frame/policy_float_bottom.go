@@ -1,4 +1,4 @@
-package jotframe
+package frame
 
 type policyFloatBottom struct {
 	Frame       *Frame

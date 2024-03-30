@@ -150,45 +150,6 @@ func (handler *VerticalUI) spinnerHandler() {
 		}
 		handler.lock.Unlock()
 	}
-	/*
-	   	for {
-	   		select {
-
-	   		case <-handler.ticker.C:
-	   			handler.lock.Lock()
-
-	   			handler.spinner.Next()
-	   			for _, displayData := range handler.data {
-	   				task := displayData.Task
-
-	   				if task.Config.CmdString != "" {
-	   					if !task.Completed && task.Started {
-	   						displayData.Values.Prefix = handler.spinner.Current()
-	   						displayData.Values.Eta = handler.CurrentEta(task)
-	   					}
-	   					handler.displayTask(task)
-	   				}
-
-	   				for _, subTask := range task.Children {
-	   					childDisplayData := handler.data[subTask.Id]
-	   					if !subTask.Completed && subTask.Started {
-	   						childDisplayData.Values.Prefix = handler.spinner.Current()
-	   						childDisplayData.Values.Eta = handler.CurrentEta(subTask)
-	   					}
-	   					handler.displayTask(subTask)
-	   				}
-
-	   				// update the summary line
-	   				if handler.config.Options.ShowSummaryFooter {
-	   					renderedFooter := handler.footer(runtime.StatusPending, "")
-	   					io.WriteString(handler.frame.Footer(), renderedFooter)
-	   				}
-	   			}
-	   			handler.lock.Unlock()
-	   		}
-
-	   }
-	*/
 }
 
 // todo: move footer logic based on jotframe requirements

@@ -1,4 +1,4 @@
-package jotframe
+package utils
 
 import (
 	"testing"

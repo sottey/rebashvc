@@ -15,7 +15,7 @@ require (
 	github.com/spf13/afero v1.1.2
 	github.com/spf13/cobra v0.0.3
 	github.com/tj/go-spin v1.1.0
-	github.com/wagoodman/jotframe v0.0.0-20181117142753-3d87a8a9c853
+	//github.com/wagoodman/jotframe v0.0.0-20181117142753-3d87a8a9c853
 	github.com/wayneashleyberry/terminal-dimensions v1.0.0
 	gopkg.in/yaml.v2 v2.2.1
 )

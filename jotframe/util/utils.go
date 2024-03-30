@@ -1,4 +1,4 @@
-package jotframe
+package utils
 
 func VisualLength(str string) int {
 	inEscapeSeq := false

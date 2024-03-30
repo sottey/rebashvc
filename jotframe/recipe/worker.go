@@ -1,9 +1,10 @@
-package jotframe
+package recipe
 
 import (
 	"context"
 
 	"github.com/k0kubun/go-ansi"
+	"github.com/sottey/rebashvc/jotframe/frame"
 	"golang.org/x/sync/semaphore"
 )
 

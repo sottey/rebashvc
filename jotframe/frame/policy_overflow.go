@@ -1,4 +1,4 @@
-package jotframe
+package frame
 
 type policyOverflow struct {
 	Frame *Frame

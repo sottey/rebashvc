@@ -1,4 +1,4 @@
-package jotframe
+package frame
 
 type floatTopPolicy struct {
 	Frame *Frame
