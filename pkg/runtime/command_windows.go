@@ -1,4 +1,4 @@
-//go:build !windows
+//go:build windows
 
 package runtime
 
@@ -37,7 +37,7 @@ func newCommand(taskConfig config.TaskConfig) command {
 	cmd.ExtraFiles = []*os.File{writeFd}
 
 	// set this command as a process group
-	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	cmd.SysProcAttr = &syscall.SysProcAttr{}
 
 	return command{
 		Environment:      map[string]string{},

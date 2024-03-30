@@ -1,4 +1,4 @@
-//go:build !windows
+//go:build windows
 
 // Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
@@ -94,15 +94,8 @@ func (task *Task) UpdateExec(execpath string) {
 
 // Kill will stop any running command (including child Tasks) with a -9 signal
 func (task *Task) Kill() {
-	if task.Config.CmdString != "" && task.Started && !task.Completed {
-		syscall.Kill(-task.Command.Cmd.Process.Pid, syscall.SIGKILL)
-	}
-
-	for _, subTask := range task.Children {
-		if subTask.Config.CmdString != "" && subTask.Started && !subTask.Completed {
-			syscall.Kill(-subTask.Command.Cmd.Process.Pid, syscall.SIGKILL)
-		}
-	}
+	// This is not ideal, as it may not kill child processes, but it is Windows friendly :-(
+	task.Command.Cmd.Process.Kill()
 }
 
 func (task *Task) requiresSudoPassword() bool {
