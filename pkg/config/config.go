@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,14 @@ package config
 
 import (
 	"fmt"
-	"github.com/deckarep/golang-set"
-	"github.com/spf13/afero"
-	"github.com/wagoodman/bashful/utils"
-	"gopkg.in/yaml.v2"
 	"os"
 	"path"
 	"strings"
+
+	mapset "github.com/deckarep/golang-set"
+	"github.com/sottey/rebashvc/utils"
+	"github.com/spf13/afero"
+	"gopkg.in/yaml.v2"
 )
 
 var globalOptions *Options
@@ -43,14 +44,22 @@ func NewConfig(yamlString []byte, options *Cli) (*Config, error) {
 	if config.CachePath == "" {
 		cwd, err := os.Getwd()
 		utils.CheckError(err, "Unable to get CWD.")
-		config.CachePath = path.Join(cwd, ".bashful")
+		config.CachePath = path.Join(cwd, ".rebashvc")
 	}
 
 	config.DownloadCachePath = path.Join(config.CachePath, "downloads")
-	config.LogCachePath = path.Join(config.CachePath, "logs")
-	config.EtaCachePath = path.Join(config.CachePath, "eta")
+	err := utils.VerifyOrCreate(config.DownloadCachePath)
+	utils.CheckError(err, "Download cache does not exist and cannot be created...")
 
-	err := config.compile(yamlString)
+	config.LogCachePath = path.Join(config.CachePath, "logs")
+	err = utils.VerifyOrCreate(config.LogCachePath)
+	utils.CheckError(err, "Log cache does not exist and cannot be created...")
+
+	config.EtaCachePath = path.Join(config.CachePath, "eta")
+	err = utils.VerifyOrCreate(config.EtaCachePath)
+	utils.CheckError(err, "Eta cache does not exist and cannot be created...")
+
+	err = config.compile(yamlString)
 	return &config, err
 }
 

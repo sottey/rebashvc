@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"math"
 	"os/exec"
 	"strings"
@@ -34,9 +33,9 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/lunixbochs/vtclean"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/utils"
-	"github.com/wayneashleyberry/terminal-dimensions"
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/utils"
+	terminaldimensions "github.com/wayneashleyberry/terminal-dimensions"
 )
 
 // todo: remove these global vars
@@ -258,7 +257,7 @@ func (task *Task) Execute(eventChan chan TaskEvent, waiter *sync.WaitGroup, envi
 
 	// close the write end of the pipe since the child shell is positively no longer writing to it
 	task.Command.Cmd.ExtraFiles[0].Close()
-	data, err := ioutil.ReadAll(task.Command.EnvReadFile)
+	data, err := io.ReadAll(task.Command.EnvReadFile)
 	utils.CheckError(err, "Could not read env vars from child shell")
 
 	if environment != nil {

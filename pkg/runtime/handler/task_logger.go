@@ -1,15 +1,15 @@
 package handler
 
 import (
-	"github.com/google/uuid"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/pkg/log"
-	"github.com/wagoodman/bashful/pkg/runtime"
-	"github.com/wagoodman/bashful/utils"
-	"io/ioutil"
 	"os"
 	"strconv"
 	"sync"
+
+	"github.com/google/uuid"
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/pkg/log"
+	"github.com/sottey/rebashvc/pkg/runtime"
+	"github.com/sottey/rebashvc/utils"
 )
 
 type bufferedLog struct {
@@ -45,7 +45,7 @@ func (handler *TaskLogger) AddRuntimeData(data *runtime.TaskStatistics) {
 }
 
 func (handler *TaskLogger) doRegister(task *runtime.Task) {
-	tempFile, _ := ioutil.TempFile(handler.config.LogCachePath, "")
+	tempFile, _ := os.CreateTemp(handler.config.LogCachePath, "")
 
 	handler.logs[task.Id] = &bufferedLog{
 		LogFile: tempFile,

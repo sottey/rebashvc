@@ -1,11 +1,12 @@
 package runtime
 
 import (
-	"github.com/lunixbochs/vtclean"
-	"github.com/wagoodman/bashful/pkg/config"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/lunixbochs/vtclean"
+	"github.com/sottey/rebashvc/pkg/config"
 )
 
 func Test_Task_estimateRuntime(t *testing.T) {

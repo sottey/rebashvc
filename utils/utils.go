@@ -6,8 +6,6 @@ import (
 	"encoding/gob"
 	"errors"
 	"fmt"
-	"github.com/howeyc/gopass"
-	color "github.com/mgutz/ansi"
 	"io"
 	"net/url"
 	"os"
@@ -15,6 +13,9 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/howeyc/gopass"
+	color "github.com/mgutz/ansi"
 )
 
 var (
@@ -71,6 +72,19 @@ func VisualLength(str string) int {
 	}
 
 	return length
+}
+
+func VerifyOrCreate(path string) error {
+	// Check if directory exists
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		// If not, create the directory
+		err := os.MkdirAll(path, 0755)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // TrimToVisualLength truncates the given message to the given length (taking into account ansi escape sequences)
@@ -151,7 +165,7 @@ func GetSudoPasswd() string {
 	requiresPassword := stdOut.String() == "sudo: a password is required\n"
 
 	if requiresPassword {
-		fmt.Print("[bashful] sudo password required: ")
+		fmt.Print("[rebashvc] sudo password required: ")
 		password, err := gopass.GetPasswd()
 		CheckError(err, "Could get sudo password from user.")
 

@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,13 @@ package runtime
 
 import (
 	"bytes"
-	"github.com/google/uuid"
-	"github.com/wagoodman/bashful/pkg/config"
 	"os"
 	"os/exec"
 	"sync"
 	"time"
+
+	"github.com/google/uuid"
+	"github.com/sottey/rebashvc/pkg/config"
 )
 
 // EventHandler represents a type that can listen to Task events managed by the Executor
@@ -138,7 +139,7 @@ type command struct {
 	// ReturnCode is simply the value returned from the child process after Cmd execution
 	ReturnCode int
 
-	// EnvReadFile is an extra pipe given to the child shell process for exfiltrating env vars back up to bashful (to provide as input for future Tasks)
+	// EnvReadFile is an extra pipe given to the child shell process for exfiltrating env vars back up to rebashvc (to provide as input for future Tasks)
 	EnvReadFile *os.File
 
 	// Environment is a list of env vars from the exited child process

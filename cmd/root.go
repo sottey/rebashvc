@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,15 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/sottey/rebashvc/pkg/runtime"
 	"github.com/spf13/cobra"
-	"github.com/wagoodman/bashful/pkg/runtime"
 )
 
 var cachePath string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "bashful",
+	Use:   "rebashvc",
 	Short: "Takes a yaml file containing commands and bash snippits and executes each command while showing a simple (vertical) progress bar",
 	Long:  `Takes a yaml file containing commands and bash snippits and executes each command while showing a simple (vertical) progress bar`,
 }
@@ -47,11 +47,11 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initBashful)
-	rootCmd.PersistentFlags().StringVar(&cachePath, "cache-path", "", "The path where cached files will be stored. By default '$(pwd)/.bashful' is used")
+	cobra.OnInitialize(initRebashvc)
+	rootCmd.PersistentFlags().StringVar(&cachePath, "cache-path", "", "The path where cached files will be stored. By default '$(pwd)/.rebashvc' is used")
 }
 
 // initConfigDir ...todo
-func initBashful() {
+func initRebashvc() {
 	runtime.Setup()
 }

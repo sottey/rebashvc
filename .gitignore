@@ -1,9 +1,10 @@
+test.yaml
 debug
 debug.test
 runner
 .vscode
-.bashful
-bashful*
+.rebashvc
+rebashvc*
 /bin
 archive
 *.log

@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,13 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/pkg/runtime"
-	"github.com/wagoodman/bashful/utils"
-	"io/ioutil"
+	"os"
 	"path/filepath"
+
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/pkg/runtime"
+	"github.com/sottey/rebashvc/utils"
+	"github.com/spf13/cobra"
 )
 
 // bundleCmd represents the bundle command
@@ -44,11 +45,9 @@ var bundleCmd = &cobra.Command{
 
 		bundlePath := filepath.Base(cli.YamlPath[0:len(cli.YamlPath)-len(filepath.Ext(cli.YamlPath))]) + ".bundle"
 
-		yamlString, err := ioutil.ReadFile(cli.YamlPath)
-		utils.CheckError(err, "Unable to read yaml config.")
-
-		fmt.Print("\033[?25l") // hide cursor
-		Bundle(yamlString, bundlePath, cli)
+		fmt.Print("\033[?25l")       // hide cursor
+		defer fmt.Print("\033[?25h") // show cursor
+		Bundle(bundlePath, cli)
 	},
 }
 
@@ -56,9 +55,9 @@ func init() {
 	rootCmd.AddCommand(bundleCmd)
 }
 
-func Bundle(yamlString []byte, outputPath string, cli config.Cli) {
+func Bundle(outputPath string, cli config.Cli) {
 
-	yamlString, err := ioutil.ReadFile(cli.YamlPath)
+	yamlString, err := os.ReadFile(cli.YamlPath)
 	utils.CheckError(err, "Unable to read yaml Config.")
 
 	client, err := runtime.NewClientFromYaml(yamlString, &cli)

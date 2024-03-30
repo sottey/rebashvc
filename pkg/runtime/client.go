@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,15 @@ package runtime
 import (
 	"bytes"
 	"fmt"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/pkg/log"
-	"github.com/wagoodman/bashful/utils"
 	"io"
 	"os"
 	"path/filepath"
 	"strconv"
 	"text/template"
+
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/pkg/log"
+	"github.com/sottey/rebashvc/utils"
 )
 
 func NewClientFromYaml(yamlString []byte, cli *config.Cli) (*Client, error) {
@@ -103,12 +104,12 @@ func (client *Client) Bundle(userYamlPath, outputPath string) error {
 
 	archivePath := "bundle.tar.gz"
 
-	bashfulPath, err := os.Executable()
-	utils.CheckError(err, "Could not find path to bashful")
+	rebashvcPath, err := os.Executable()
+	utils.CheckError(err, "Could not find path to rebashvc")
 
 	archive := NewArchive(archivePath)
 
-	for _, path := range []string{userYamlPath, bashfulPath} {
+	for _, path := range []string{userYamlPath, rebashvcPath} {
 		err = archive.Archive(path, false)
 		utils.CheckError(err, "Unable to add '"+path+"' to bundle")
 	}
@@ -122,19 +123,19 @@ func (client *Client) Bundle(userYamlPath, outputPath string) error {
 
 	execute := `#!/bin/bash
 set -eu
-export TMPDIR=$(mktemp -d /tmp/bashful.XXXXXX)
-ARCHIVE=$(awk '/^__BASHFUL_ARCHIVE__/ {print NR + 1; exit 0; }' $0)
+export TMPDIR=$(mktemp -d /tmp/rebashvc.XXXXXX)
+ARCHIVE=$(awk '/^__REBASHVC_ARCHIVE__/ {print NR + 1; exit 0; }' $0)
 
 tail -n+$ARCHIVE $0 | tar -xz -C $TMPDIR
 
 pushd $TMPDIR > /dev/null
-./bashful run {{.Runyaml}} $*
+./rebashvc run {{.Runyaml}} $*
 popd > /dev/null
 rm -rf $TMPDIR
 
 exit 0
 
-__BASHFUL_ARCHIVE__
+__REBASHVC_ARCHIVE__
 `
 	var buff bytes.Buffer
 	var values = struct {

@@ -2,9 +2,10 @@ package handler
 
 import (
 	"fmt"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/pkg/runtime"
 	"os"
+
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/pkg/runtime"
 )
 
 // this was just a (successful) experiment :) needs to be reworked
@@ -17,7 +18,7 @@ type SimpleLogger struct {
 func NewSimpleLogger(config *config.Config) *SimpleLogger {
 	// todo: drive this off of the config
 	// todo: add logging types?
-	f, err := os.OpenFile("./tmp/bashful.log", os.O_APPEND|os.O_WRONLY, 0600)
+	f, err := os.OpenFile("./tmp/rebashvc.log", os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
 		panic(err)
 	}

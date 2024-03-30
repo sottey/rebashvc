@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 package config
 
 import (
-	"github.com/deckarep/golang-set"
+	mapset "github.com/deckarep/golang-set"
 )
 
 type stringArray []string
@@ -52,7 +52,7 @@ type Config struct {
 	TotalEtaSeconds float64
 }
 
-// Cli is the exhaustive set of all command line options available on bashful
+// Cli is the exhaustive set of all command line options available on rebashvc
 type Cli struct {
 	YamlPath               string
 	RunTags                []string
@@ -66,7 +66,7 @@ type Options struct {
 	// BulletChar is a character (or short string) that should prefix any displayed task name
 	BulletChar string `yaml:"bullet-char"`
 
-	// Bundle is a list of relative file paths that should be included in a bashful bundle
+	// Bundle is a list of relative file paths that should be included in a rebashvc bundle
 	Bundle []string `yaml:"bundle"`
 
 	// CollapseOnCompletion indicates when a task with child tasks should be "rolled up" into a single line after all tasks have been executed
@@ -126,7 +126,7 @@ type Options struct {
 	// StopOnFailure indicates to halt further program execution if a task command has a non-zero return code
 	StopOnFailure bool `yaml:"stop-on-failure"`
 
-	// SingleLineDisplay indicates to show all bashful output in a single line (instead of a line per task + a summary line)
+	// SingleLineDisplay indicates to show all rebashvc output in a single line (instead of a line per task + a summary line)
 	SingleLineDisplay bool `yaml:"single-line"`
 
 	// UpdateInterval is the time in seconds that the screen should be refreshed (only if EventDriven=false)

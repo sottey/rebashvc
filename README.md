@@ -1,15 +1,10 @@
-# bashful
+# Rebash.vc
 
-[![Travis CI](https://api.travis-ci.org/wagoodman/bashful.svg?branch=master)](https://travis-ci.org/wagoodman/bashful) [![Go Report Card](https://goreportcard.com/badge/github.com/wagoodman/bashful)](https://goreportcard.com/report/github.com/wagoodman/bashful)
-
-**This is beta quality!** Use at your own risk.
+**This is a FORK of [something](https://github.com/sottey/rebash.vc) that was beta quality!** Use at your own risk.
 
 Use a yaml file to stitch together commands and bash snippets and run them with a bit of style. 
-Why? Because your bash script should be quiet and shy-like (...and not such a loud mouth). 
 
 ![Image](.data/demo.gif)
-
-*"But why would you make this monstrosity?"* you ask... because ` &>/dev/null` and ` | tee -a some.log` and `set -e; do something; set +e` and other similar things is getting annoying. And besides... why shouldn't your bash script output look pretty?
 
 **Features:**
 - [x] Run bash snippits ('tasks') in series or parallel
@@ -21,35 +16,35 @@ Why? Because your bash script should be quiet and shy-like (...and not such a lo
 - [x] Configuration yaml block to control the behavior/look & feel
 - [x] Detailed error reports when commands fail
 - [x] Control which failing command should halt execution
+- [x] Updated to Go 1.22.1
+- [x] Incorporated all root and fork changes
 
 ## Installation
 
 **Ubuntu/Debian**
+*NOT WORKING YET*
 ```bash
-wget https://github.com/wagoodman/bashful/releases/download/v0.0.10/bashful_0.0.10_linux_amd64.deb
-sudo apt install ./bashful_0.0.10_linux_amd64.deb
+wget https://github.com/sottey/rebash.vc/releases/download/v0.0.10/rebash.vc_0.0.10_linux_amd64.deb
+sudo apt install ./rebash.vc_0.0.10_linux_amd64.deb
 ```
 
 **RHEL/Centos**
+*NOT WORKING YET*
 ```bash
-wget https://github.com/wagoodman/bashful/releases/download/v0.0.10/bashful_0.0.10_linux_amd64.rpm
-rpm -i bashful_0.0.10_linux_amd64.rpm
+wget https://github.com/sottey/rebash.vc/releases/download/v0.0.10/rebash.vc_0.0.10_linux_amd64.rpm
+rpm -i rebash.vc_0.0.10_linux_amd64.rpm
 ```
 
 **Mac**
-```bash
-brew tap wagoodman/bashful
-brew install bashful
-```
-or download a Darwin build from the releases page.
+Download a Darwin build from the releases page.
 
 **Go tools**
 ```bash
-go get github.com/wagoodman/bashful
+go get github.com/sottey/rebash.vc
 ```
 
 ## Getting Started
-**There are a ton of examples in the [`example/`](https://github.com/wagoodman/bashful/tree/master/example) dir**, but here are a few:
+**There are a ton of examples in the [`example/`](https://github.com/sottey/rebash.vc/tree/master/example) dir**, but here are a few:
 
 **1. The simplest of examples:**
 ```yaml
@@ -58,7 +53,7 @@ tasks:
 ```
 To run it:
 ```bash
-bashful run hello.yaml
+rebashvc run hello.yaml
 ```
 
 **2. A more realistic example: a build and deployment description**
@@ -78,18 +73,18 @@ tasks:
       tags: deploy
 
     - name: Deploying app
-      cmd: kubectl run my-awesome-app --image=docker.io/wagoodman/my-awesome-app:v1 --pt=80
+      cmd: kubectl run my-awesome-app --image=docker.io/sottey/my-awesome-app:v1 --pt=80
       tags: deploy
 ```
 
 Run all of the tasks...
 ```bash
-bashful run ci.yaml
+rebashvc run ci.yaml
 ```
 
 ...Or run just the build steps:
 ```bash
-bashful run ci.yaml --tags build
+rebashvc run ci.yaml --tags build
 ```
 
 **3. Have an installer run things in parallel...**
@@ -118,7 +113,7 @@ tasks:
 
 Package up the installed into a single executable and give it to someone else to run (must be the same architecture and OS type):
 ```bash
-bashful bundle install.yaml
+rebashvc bundle install.yaml
 # now you have a new executable called "install.bundle", which can simply be executed
 ./install.bundle
 ```
@@ -134,7 +129,7 @@ tasks:
 *Note: you cannot persist environment variables from a parallel step.*
 
 
-**4. Include other yaml files in your bashful run.yaml.**
+**4. Include other yaml files in your rebashvc run.yaml.**
 This way you can centralize your common yaml snippets for reusability:
 
 ```yaml
@@ -220,7 +215,7 @@ tasks:
 **5. Pass arbitrary arguments to jobs.**
 
 ```
-$ bashful run some.yaml first-argument 20
+$ rebashvc run some.yaml first-argument 20
 ```
 
 Which can be used as bash `$#` parameters (in this case `$1` and `$2`):
@@ -232,7 +227,7 @@ tasks:
       cmd: echo $2
 ```
 
-**There are a ton of examples in the [`example/`](https://github.com/wagoodman/bashful/tree/master/example) dir.** Go check them out!
+**There are a ton of examples in the [`example/`](https://github.com/sottey/rebash.vc/tree/master/example) dir.** Go check them out!
 
 ## Configuration Options
 Here is an exhaustive list of all of the config options (in the `config` yaml block). These options
@@ -322,18 +317,18 @@ tasks:
       md5: ae8abe98aeb389ae8b39e3434bbc    # an expected md5 checksum of the url provided
 
       tags: something               # one or more 'tags' that can be used to execute a sub-selection of tasks within a run yaml
-      tags:                         # e.g. 'bashful run some.yaml --tags      something' 
-        - something                 #      'bashful run some.yaml --tags      something,else'
-        - else                      #      'bashful run some.yaml --only-tags something'
+      tags:                         # e.g. 'rebash.vc run some.yaml --tags      something' 
+        - something                 #      'rebash.vc run some.yaml --tags      something,else'
+        - else                      #      'rebash.vc run some.yaml --only-tags something'
 ```
 
-**There are a ton of examples in the [`example/`](https://github.com/wagoodman/bashful/tree/master/example) dir.** Go check them out!
+**There are a ton of examples in the [`example/`](https://github.com/sottey/rebash.vc/tree/master/example) dir.** Go check them out!
 
 ## Runtime Options
 ```
 USAGE:
-   bashful run [options] <path-to-yaml-file>
-   bashful bundle <path-to-yaml-file>
+   rebash.vc run [options] <path-to-yaml-file>
+   rebash.vc bundle <path-to-yaml-file>
 
 COMMANDS:
      bundle   Bundle yaml and referenced url resources into a single executable
@@ -356,7 +351,7 @@ GLOBAL OPTIONS:
 All feature requests are welcome! 
 - [ ] at least 70% test coverage
 - [ ] truly cross platform (windows)
-- [ ] Multiple (serial) commands for a single task (`cmd: [run something, run another thing]`)
+- [ ] Multiple (serial) commands for a single task (`cmd: [run something, run another thing]`) *this can be done already on macOS and Ubuntu by joining the commands with '&'*
 - [ ] Multiple url references for a single task (`url: [https://someurl.com/some-script.sh, https://anotherurl.com/another-script.sh]`)
 - [ ] Allow parallel tasks within parallel tasks (really just allow deeper nesting of any kind of task)
 - [ ] Interact with the mouse to see more/less tasks (https://godoc.org/github.com/nsf/termbox-go#Event)

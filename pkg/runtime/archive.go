@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,12 @@ import (
 	"archive/tar"
 	"compress/gzip"
 	"errors"
-	"github.com/wagoodman/bashful/utils"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/sottey/rebashvc/utils"
 )
 
 type Archiver interface {

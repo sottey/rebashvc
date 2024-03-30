@@ -2,9 +2,10 @@ package runtime
 
 import (
 	"fmt"
-	"github.com/lunixbochs/vtclean"
-	"github.com/wagoodman/bashful/pkg/config"
 	"testing"
+
+	"github.com/lunixbochs/vtclean"
+	"github.com/sottey/rebashvc/pkg/config"
 )
 
 // Test harness...

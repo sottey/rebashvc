@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,18 @@ package runtime
 
 import (
 	"fmt"
-	"github.com/deckarep/golang-set"
 	"os"
 	"path"
 	"sync"
 	"time"
 
+	mapset "github.com/deckarep/golang-set"
+
 	"github.com/cavaliercoder/grab"
 	"github.com/dustin/go-humanize"
 	"github.com/gosuri/uiprogress"
-	"github.com/wagoodman/bashful/pkg/log"
-	"github.com/wagoodman/bashful/utils"
+	"github.com/sottey/rebashvc/pkg/log"
+	"github.com/sottey/rebashvc/utils"
 )
 
 type downloader struct {

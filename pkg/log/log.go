@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	color "github.com/mgutz/ansi"
-	"github.com/wagoodman/bashful/utils"
+	"github.com/sottey/rebashvc/utils"
 )
 
 const (

@@ -4,7 +4,7 @@ config:
     - example/scripts/compile-something.sh
 
 tasks:
-  - url: https://raw.githubusercontent.com/wagoodman/bashful/master/example/scripts/compile-something.sh
+  - url: https://raw.githubusercontent.com/sottey/rebashvc/master/example/scripts/compile-something.sh
     cmd: <exec> 2
 
   - cmd: /usr/bin/ls
@@ -13,7 +13,7 @@ tasks:
     parallel-tasks:
       - cmd: example/scripts/random-worker.sh 3
       - cmd: example/scripts/compile-something.sh 2
-      - url: https://raw.githubusercontent.com/wagoodman/bashful/master/example/scripts/compile-something.sh
+      - url: https://raw.githubusercontent.com/sottey/rebashvc/master/example/scripts/compile-something.sh
         cmd: <exec> 1
 
 

@@ -2,7 +2,7 @@ release:
   prerelease: true
 
 builds:
-  - binary: bashful
+  - binary: rebashvc
     goos:
       - darwin
       - linux
@@ -15,12 +15,12 @@ archive:
 
 fpm:
   license: MIT
-  homepage: https://github.com/wagoodman/bashful/
+  homepage: https://github.com/sottey/rebashvc/
   formats:
     - deb
     - rpm
 
 brew:
   github:
-    owner: wagoodman
-    name: homebrew-bashful
+    owner: sottey
+    name: homebrew-rebashvc

@@ -2,13 +2,14 @@ package runtime
 
 import (
 	"bytes"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/utils"
 	"os"
 	"os/exec"
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/utils"
 )
 
 func newCommand(taskConfig config.TaskConfig) command {
@@ -24,7 +25,7 @@ func newCommand(taskConfig config.TaskConfig) command {
 	if taskConfig.Sudo {
 		sudoCmd = "sudo -S "
 	}
-	cmd := exec.Command(shell, "-c", sudoCmd+taskConfig.CmdString+"; BASHFUL_RC=$?; env >&3; exit $BASHFUL_RC")
+	cmd := exec.Command(shell, "-c", sudoCmd+taskConfig.CmdString+"; REBASHVC_RC=$?; env >&3; exit $REBASHVC_RC")
 	cmd.Stdin = strings.NewReader(string(sudoPassword) + "\n")
 
 	// Set current working directory; default is empty

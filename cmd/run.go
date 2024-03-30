@@ -1,4 +1,4 @@
-// Copyright © 2018 Alex Goodman
+// Copyright © 2018 Alex Goodman, 2024 Sean Ottey
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,20 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/deckarep/golang-set"
+	"os"
 
-	"github.com/spf13/cobra"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/pkg/log"
-	"github.com/wagoodman/bashful/pkg/runtime"
-	"github.com/wagoodman/bashful/pkg/runtime/handler"
-	"github.com/wagoodman/bashful/utils"
-	"io/ioutil"
+	mapset "github.com/deckarep/golang-set"
+
 	"math/rand"
 	"strings"
 	"time"
+
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/pkg/log"
+	"github.com/sottey/rebashvc/pkg/runtime"
+	"github.com/sottey/rebashvc/pkg/runtime/handler"
+	"github.com/sottey/rebashvc/utils"
+	"github.com/spf13/cobra"
 )
 
 // todo: put these in a cli struct instance instead, then most logic can be in the cli struct
@@ -42,8 +44,8 @@ var tags, onlyTags string
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Execute the given yaml file with bashful",
-	Long:  `Execute the given yaml file with bashful`,
+	Short: "Execute the given yaml file with rebashvc",
+	Long:  `Execute the given yaml file with rebashvc`,
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
@@ -80,10 +82,11 @@ var runCmd = &cobra.Command{
 			cli.RunTagSet.Add(tag)
 		}
 
-		yamlString, err := ioutil.ReadFile(cli.YamlPath)
+		yamlString, err := os.ReadFile(cli.YamlPath)
 		utils.CheckError(err, "Unable to read yaml config.")
 
-		fmt.Print("\033[?25l") // hide cursor
+		fmt.Print("\033[?25l")       // hide cursor
+		defer fmt.Print("\033[?25h") // show cursor
 		Run(yamlString, cli)
 
 	},

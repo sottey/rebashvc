@@ -3,20 +3,21 @@ package handler
 import (
 	"bytes"
 	"fmt"
-	"github.com/google/uuid"
-	color "github.com/mgutz/ansi"
-	"github.com/tj/go-spin"
-	"github.com/wagoodman/bashful/pkg/config"
-	"github.com/wagoodman/bashful/pkg/runtime"
-	"github.com/wagoodman/bashful/utils"
-	"github.com/wagoodman/jotframe"
-	"github.com/wayneashleyberry/terminal-dimensions"
 	"io"
 	"strconv"
 	"strings"
 	"sync"
 	"text/template"
 	"time"
+
+	"github.com/google/uuid"
+	color "github.com/mgutz/ansi"
+	"github.com/sottey/rebashvc/pkg/config"
+	"github.com/sottey/rebashvc/pkg/runtime"
+	"github.com/sottey/rebashvc/utils"
+	"github.com/tj/go-spin"
+	"github.com/wagoodman/jotframe"
+	terminaldimensions "github.com/wayneashleyberry/terminal-dimensions"
 )
 
 type VerticalUI struct {
@@ -116,44 +117,78 @@ func (handler *VerticalUI) AddRuntimeData(data *runtime.TaskStatistics) {
 }
 
 func (handler *VerticalUI) spinnerHandler() {
+	for v := range handler.ticker.C {
+		v = v
+		handler.lock.Lock()
 
-	for {
-		select {
+		handler.spinner.Next()
+		for _, displayData := range handler.data {
+			task := displayData.Task
 
-		case <-handler.ticker.C:
-			handler.lock.Lock()
-
-			handler.spinner.Next()
-			for _, displayData := range handler.data {
-				task := displayData.Task
-
-				if task.Config.CmdString != "" {
-					if !task.Completed && task.Started {
-						displayData.Values.Prefix = handler.spinner.Current()
-						displayData.Values.Eta = handler.CurrentEta(task)
-					}
-					handler.displayTask(task)
+			if task.Config.CmdString != "" {
+				if !task.Completed && task.Started {
+					displayData.Values.Prefix = handler.spinner.Current()
+					displayData.Values.Eta = handler.CurrentEta(task)
 				}
-
-				for _, subTask := range task.Children {
-					childDisplayData := handler.data[subTask.Id]
-					if !subTask.Completed && subTask.Started {
-						childDisplayData.Values.Prefix = handler.spinner.Current()
-						childDisplayData.Values.Eta = handler.CurrentEta(subTask)
-					}
-					handler.displayTask(subTask)
-				}
-
-				// update the summary line
-				if handler.config.Options.ShowSummaryFooter {
-					renderedFooter := handler.footer(runtime.StatusPending, "")
-					io.WriteString(handler.frame.Footer(), renderedFooter)
-				}
+				handler.displayTask(task)
 			}
-			handler.lock.Unlock()
-		}
 
+			for _, subTask := range task.Children {
+				childDisplayData := handler.data[subTask.Id]
+				if !subTask.Completed && subTask.Started {
+					childDisplayData.Values.Prefix = handler.spinner.Current()
+					childDisplayData.Values.Eta = handler.CurrentEta(subTask)
+				}
+				handler.displayTask(subTask)
+			}
+
+			// update the summary line
+			if handler.config.Options.ShowSummaryFooter {
+				renderedFooter := handler.footer(runtime.StatusPending, "")
+				io.WriteString(handler.frame.Footer(), renderedFooter)
+			}
+		}
+		handler.lock.Unlock()
 	}
+	/*
+	   	for {
+	   		select {
+
+	   		case <-handler.ticker.C:
+	   			handler.lock.Lock()
+
+	   			handler.spinner.Next()
+	   			for _, displayData := range handler.data {
+	   				task := displayData.Task
+
+	   				if task.Config.CmdString != "" {
+	   					if !task.Completed && task.Started {
+	   						displayData.Values.Prefix = handler.spinner.Current()
+	   						displayData.Values.Eta = handler.CurrentEta(task)
+	   					}
+	   					handler.displayTask(task)
+	   				}
+
+	   				for _, subTask := range task.Children {
+	   					childDisplayData := handler.data[subTask.Id]
+	   					if !subTask.Completed && subTask.Started {
+	   						childDisplayData.Values.Prefix = handler.spinner.Current()
+	   						childDisplayData.Values.Eta = handler.CurrentEta(subTask)
+	   					}
+	   					handler.displayTask(subTask)
+	   				}
+
+	   				// update the summary line
+	   				if handler.config.Options.ShowSummaryFooter {
+	   					renderedFooter := handler.footer(runtime.StatusPending, "")
+	   					io.WriteString(handler.frame.Footer(), renderedFooter)
+	   				}
+	   			}
+	   			handler.lock.Unlock()
+	   		}
+
+	   }
+	*/
 }
 
 // todo: move footer logic based on jotframe requirements
