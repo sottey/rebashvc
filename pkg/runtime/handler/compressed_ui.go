@@ -10,9 +10,10 @@ import (
 	color "github.com/mgutz/ansi"
 
 	"github.com/sottey/rebashvc/pkg/config"
+	jotframe "github.com/sottey/rebashvc/pkg/jotframe"
 	"github.com/sottey/rebashvc/pkg/runtime"
 	"github.com/sottey/rebashvc/utils"
-	"github.com/wagoodman/jotframe"
+
 	terminaldimensions "github.com/wayneashleyberry/terminal-dimensions"
 )
 

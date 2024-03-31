@@ -16,7 +16,10 @@ import (
 	"github.com/sottey/rebashvc/pkg/runtime"
 	"github.com/sottey/rebashvc/utils"
 	"github.com/tj/go-spin"
-	"github.com/wagoodman/jotframe"
+
+	jotframe "github.com/sottey/rebashvc/pkg/jotframe"
+	// jotframe "github.com/sottey/rebashvc/pkg/frame"
+
 	terminaldimensions "github.com/wayneashleyberry/terminal-dimensions"
 )
 
