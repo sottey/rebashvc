@@ -350,8 +350,9 @@ GLOBAL OPTIONS:
 ## Wish list
 All feature requests are welcome! 
 - [ ] at least 70% test coverage
-- [ ] truly cross platform (windows)
+- [ ] truly cross platform (windows) *Ported the SIG and Syscalls so this should work on Windows now. Untested as of yet*
 - [ ] Multiple (serial) commands for a single task (`cmd: [run something, run another thing]`) *this can be done already on macOS and Ubuntu by joining the commands with '&'*
 - [ ] Multiple url references for a single task (`url: [https://someurl.com/some-script.sh, https://anotherurl.com/another-script.sh]`)
 - [ ] Allow parallel tasks within parallel tasks (really just allow deeper nesting of any kind of task)
 - [ ] Interact with the mouse to see more/less tasks (https://godoc.org/github.com/nsf/termbox-go#Event)
+- [ ] Theming capabilities
